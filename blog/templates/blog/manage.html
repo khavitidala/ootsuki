@@ -1,0 +1,14 @@
+<h1>Post</h1>
+{% if post_list %}
+    {% for post in post_list %}
+    <li>
+        <a href="{% url 'blog:article'  post.id post.templ_id %}">{{ post.title }}</a>
+        {% if ad.owner == user %}
+        (<a href="{% url 'blog:update' post.id %}">Edit</a> |
+        <a href="{% url 'blog:delete' post.id %}">Delete</a>)
+        {% endif %}
+    </li>
+    {% endfor %}
+{% endif %}
+
+<a href="{% url 'blog:create' %}">Buat Pos</a>

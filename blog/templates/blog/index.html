@@ -1,0 +1,92 @@
+{% extends "base_all.html" %}
+{% block title %}{{ settings.APP_NAME }}{% endblock %}
+{% block content %}
+{% load humanize %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+      {% if not posts %}
+        <h2>Url yang anda tuju tidak ditemukan</h2>
+      {% else %}
+        {% for post in posts %}
+        <div class="row" style="font-family: Montserrat; margin-top: 1%;"></div>
+          <img class="image-fluid img-thumbnail" src="{{ post.thumb_url }}" alt="thumb_url" width="100%" height="auto">
+            <div class="konten" style="margin-left: 2%; margin-right: 2%; margin-bottom: 4%;">
+              <p style="margin-top: 3%;"><a href="{% url 'blog:article'  post.id post.templ_id %}" style="color: black; font-size: 150%; font-family: Montserrat;" class="font-weight-bold">{{ post.title }}</a></p>
+              <p style="font-family: Montserrat; font-size: 90%; margin-bottom: 1%;">{{ post.caption }}....</p>
+              <div class="row" style="font-size: 80%; margin-top: 0.5%; color: gray;">
+              <div class="col-md-6"><div class="float-left font-weight-light">{{ post.author.get_full_name }}</div></div>
+              <div class="col-md-6"><div class="float-right font-weight-light">{{ post.updated_at|naturaltime }}</div></div>
+            </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+      <div class="row">
+        {% if is_paginated %}
+        <ul class="pagination mx-auto">
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a></li>
+          {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">«</a></li>
+          {% endif %}
+          {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+              <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a></li>
+          {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">»</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row" style=" margin-top: 1%;">
+        <div class="container-fluid" style="margin: 0px; padding: 0px;">
+        <form action="{% url 'blog:home' %}" method="get">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search..." id="search" name="q" width="100%">
+            </div>
+        </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <h4 class="text-justify card-title">About Organization</h4>
+            <img class="card-img-top" src="https://helloproclub.github.io/assets/group@3x.png" alt="Card image" style="padding: 5%;">
+            <p class="text-justify card-text">Proclub Telkom University or simply Proclub is an independent student organization under the School of Computing of Telkom University that act as an incubator for student who highly interested in ICT development and competition.</p>
+            <a href="https://helloproclub.github.io/" class="btn btn-primary">See Profile</a>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3" id="aboutme">
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <h4 class="text-justify card-title">About Me</h4>
+            <img class="card-img-top img-fluid" src="/media/uploads/2021/02/12/foto.jpg" alt="Card image" style="padding: 5%;">
+            <p class="text-justify card-text">Hai! Nama aku Ryan Abdurohman dari S-1 Informatika Telkom University. Saat ini aku merupakan anggota Proclub divisi Software Engineering. Salam Kenal!</p>  
+            <div class="container">  
+              <div class="row text-center">
+                <div class="col-12">
+                  <a href="https://www.linkedin.com/in/ryanabdurohman/"><i class="fa fa-linkedin" style="font-size:150%;color:grey"></i></a>  
+                  <a href="https://www.instagram.com/ryanesaci22/" ><i class="fa fa-instagram" style="font-size:150%;color:grey"></i></a>
+                  <a href="https://github.com/khavitidala" ><i class="fa fa-github" style="font-size:150%;color:grey"></i></a>
+                  <a href="https://twitter.com/ryanesaci" ><i class="fa fa-twitter" style="font-size:150%;color:grey"></i></a>
+                </div>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+{% endblock %}
